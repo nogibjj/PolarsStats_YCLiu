@@ -41,7 +41,7 @@ def calSD(df, clmn):
     if clmn not in df.columns:
         raise ValueError("ValueError. Input column not in input DataFrame.")
     try:
-        sd_df = df.select(pl.stds(df[clmn]))
+        sd_df = df.select(pl.std(df[clmn]))
         return pl.select(sd_df).item()
     except Exception as e:
         raise ValueError("ValueError. Check if input column is of datatype int or float.") from e
