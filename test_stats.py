@@ -1,5 +1,5 @@
 import os
-import pandas as pd
+import polars as pl
 import statsYC
 import outputStats
 
@@ -14,7 +14,7 @@ import outputStats
 
 #Functionality Test
 def testStats():
-    TestCase1 = pd.read_csv('TestCase1.csv', header = 0)
+    TestCase1 = pl.read_csv('TestCase1.csv')
     assert statsYC.calMean(TestCase1, 'Age') == 12.5
     assert statsYC.calMedian(TestCase1, 'Age') == 13
     assert statsYC.countItemOcc(TestCase1, 'Sex', 'M') == 4

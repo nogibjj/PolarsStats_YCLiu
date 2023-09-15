@@ -1,14 +1,17 @@
+import polars as pl
+
 def calMean(df, clmn):
     ''' 
     The function takes the following 2 inputs:
-    1. A pandas DataFrame 
+    1. A polars DataFrame 
     2. A column name
     and outputs the mean of the column.    
     '''
     if clmn not in df.columns:
         raise ValueError("ValueError. Input column not in input DataFrame.")
     try:
-        return df[clmn].mean()
+        mean_df = df.select(pl.mean(df[clmn]))
+        return pl.select(mean_df).item()
     except Exception as e:
         raise ValueError("ValueError. Check if input column is of datatype int or float.") from e
     
@@ -16,59 +19,62 @@ def calMean(df, clmn):
 def calMedian(df, clmn):
     ''' 
     The function takes the following 2 inputs:
-    1. A pandas DataFrame 
+    1. A polars DataFrame 
     2. A column name
     and outputs the median of the column.    
     '''    
     if clmn not in df.columns:
         raise ValueError("ValueError. Input column not in input DataFrame.")
     try:
-        return df[clmn].median()
+        median_df = df.select(pl.median(df[clmn]))
+        return pl.select(median_df).item()
     except Exception as e:
         raise ValueError("ValueError. Check if input column is of datatype int or float.") from e
 
 def calSD(df, clmn):
     ''' 
     The function takes the following 2 inputs:
-    1. A pandas DataFrame 
+    1. A polars DataFrame 
     2. A column name
     and outputs the standard deviation of the column.    
     '''    
     if clmn not in df.columns:
         raise ValueError("ValueError. Input column not in input DataFrame.")
     try:
-        return df[clmn].std()
+        sd_df = df.select(pl.stds(df[clmn]))
+        return pl.select(sd_df).item()
     except Exception as e:
         raise ValueError("ValueError. Check if input column is of datatype int or float.") from e
 
 def countItemOcc(df, clmn, item):
     ''' 
     The function takes the following 3 inputs:
-    1. A pandas DataFrame 
+    1. A polars DataFrame 
     2. A column name
     3. An item (e.g. a string or a number)
     and outputs the number of occurrences of the item in the column.
     '''        
     if clmn not in df.columns:
         raise ValueError("ValueError. Input column not in input DataFrame.")
-    return df[df[clmn]==item].shape[0]
+
+    return df.filter((pl.col(clmn) == item)).shape[0]
 
 def calItemRate(df, clmn, item):
     '''
     The function takes the following 3 inputs:
-    1. A pandas DataFrame 
+    1. A polars DataFrame 
     2. A column name
     3. An item (e.g. a string or a number)
     and outputs the number of occurrences of the string over total number of non-None rows in the column.
     '''        
     if clmn not in df.columns:
         raise ValueError("ValueError. Input column not in input DataFrame.")
-    return (df[df[clmn]==item].shape[0]*100)/(df.dropna(subset=[clmn]).shape[0])
+    return (df.filter((pl.col(clmn) == item)).shape[0]*100)/(df.select(pl.col(clmn).drop_nans()).shape[0])
 
 def printNumStats(df, clmn):
     '''
     The function takes the following 2 inputs:
-    1. A pandas DataFrame 
+    1. A polars DataFrame 
     2. A column name
     and it prints out the mean and median of the numerical column in the following format:
     "In InputColumn column, the mean is *MeanRoundedTo2Digits* and the median is *MedianRoundedTo2Digits*."
@@ -83,7 +89,7 @@ def printNumStats(df, clmn):
 def printOccStats(df, clmn, item):
     '''
     The function takes the following 3 inputs:
-    1. A pandas DataFrame 
+    1. A polars DataFrame 
     2. A column name
     3. An item (e.g. a string or a number)
     and it returns the following:
