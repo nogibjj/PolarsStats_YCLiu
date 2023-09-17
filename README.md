@@ -1,4 +1,4 @@
-[![Python application test with Github Actions](https://github.com/nogibjj/DETemplatePy/actions/workflows/main.yml/badge.svg)](https://github.com/nogibjj/DETemplatePy/actions/workflows/main.yml)
+[![Python application test with Github Actions](https://github.com/nogibjj/PolarsStats_YCLiu/actions/workflows/main.yml/badge.svg)](https://github.com/nogibjj/PolarsStats_YCLiu/actions/workflows/main.yml)
 
 ## A simple library that generates descriptive stats using Polars.
 
