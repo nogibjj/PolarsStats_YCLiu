@@ -39,7 +39,7 @@ The statsYC tool contains the following functions to generate descriptive stats 
   <br> 1. A polars DataFrame 
   <br> 2. A column name
   <br> 3. An item (e.g. a string or a number)
-  <br> and outputs the **number of occurrences of the string over total number of non-None rows** in the column.
+  <br> and outputs the **number of occurrences of the string over total number of non-NA rows** in the column.
   <br> If the input column is **not in the DataFrame**, the function **raise errors**.
 
 6. **printNumStats**: a simple visualization tool to print the **mean and median** of a column in a clear format.
